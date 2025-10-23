@@ -111,6 +111,30 @@
 </script>
 </head>
   <body class="bg-gradient-to-b from-background to-slate-900 text-foreground">
+    <script>
+      console.log('--- START DIAGNOSTIC LOGGING ---');
+      console.log('Page location (href):', window.location.href);
+      console.log('Page path (pathname):', window.location.pathname);
+      console.log('Document base URI:', document.baseURI);
+      
+      const scriptSrc = './index.tsx';
+      try {
+        const resolvedUrl = new URL(scriptSrc, document.baseURI);
+        console.log(`Attempting to load script from src="${scriptSrc}"`);
+        console.log('Resolved URL for script will be:', resolvedUrl.href);
+      } catch (e) {
+        console.error('Could not resolve script URL:', e);
+      }
+
+      window.addEventListener('error', function(event) {
+        if (event.target instanceof HTMLScriptElement) {
+          console.error('Global Error Handler: Failed to load script:', event.target.src);
+          console.error('Error event details:', event);
+        }
+      }, true); // Use capture phase to catch it early
+
+      console.log('--- END DIAGNOSTIC LOGGING ---');
+    </script>
     <div id="root"></div>
     <!-- 1. Add Babel Standalone for in-browser JSX/TSX transpilation -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
