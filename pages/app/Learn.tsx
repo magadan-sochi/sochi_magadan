@@ -1,8 +1,8 @@
 
 
 import React, { useState, useEffect } from 'react';
-// FIX: Switched to namespace import for react-router-dom to resolve module resolution errors.
-import * as ReactRouterDOM from 'react-router-dom';
+// FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../services/supabase';
 import type { MenuSection, MenuCategory, SectionCategory } from '../../types';
 import Button from '../../components/ui/Button';
@@ -16,7 +16,7 @@ interface SectionWithCategories extends MenuSection {
 const Learn: React.FC = () => {
     const [sections, setSections] = useState<SectionWithCategories[]>([]);
     const [expandedSection, setExpandedSection] = useState<number | null>(null);
-    const navigate = ReactRouterDOM.useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMenuData = async () => {

@@ -7,8 +7,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/Avatar'
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { BookOpenIcon } from '../../components/icons/BookOpenIcon';
 import { Trophy, ArrowRight } from 'lucide-react';
-// FIX: Switched to namespace import for react-router-dom to resolve module resolution errors.
-import * as ReactRouterDOM from 'react-router-dom';
+// FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
+import { useNavigate } from 'react-router-dom';
 
 
 const ProgressCircle: React.FC<{ progress: number; radius?: number; strokeWidth?: number }> = ({ progress, radius = 60, strokeWidth = 10 }) => {
@@ -50,7 +50,7 @@ const ProgressCircle: React.FC<{ progress: number; radius?: number; strokeWidth?
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
-  const navigate = ReactRouterDOM.useNavigate();
+  const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
   const [learnedCount, setLearnedCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);

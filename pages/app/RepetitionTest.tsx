@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-// FIX: Switched to namespace import for react-router-dom to resolve module resolution errors.
-import * as ReactRouterDOM from 'react-router-dom';
+// FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../services/supabase';
 import type { MenuItem } from '../../types';
 import { useAuth } from '../../hooks/useAuth';
@@ -66,7 +66,7 @@ const TimerCircle: React.FC<{ timeLeft: number; totalTime: number }> = ({ timeLe
 
 const RepetitionTest: React.FC = () => {
     const { user } = useAuth();
-    const navigate = ReactRouterDOM.useNavigate();
+    const navigate = useNavigate();
     const [deck, setDeck] = useState<MenuItem[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);

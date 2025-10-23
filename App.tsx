@@ -1,7 +1,7 @@
 
 import React from 'react';
-// FIX: Switched to namespace import for react-router-dom to resolve module resolution errors.
-import * as ReactRouterDOM from 'react-router-dom';
+// FIX: Switched to named imports for react-router-dom to resolve module resolution errors.
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './hooks/useAuth';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -20,33 +20,33 @@ import RepetitionTest from './pages/app/RepetitionTest';
 function App() {
   return (
     <AuthProvider>
-      <ReactRouterDOM.HashRouter>
-        <ReactRouterDOM.Routes>
-          <ReactRouterDOM.Route path="/login" element={<LoginPage />} />
-          <ReactRouterDOM.Route path="/app" element={
+      <HashRouter>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/app" element={
             <ProtectedRoute>
               <AppLayout />
             </ProtectedRoute>
           }>
             {/* Nested routes render inside AppLayout's <Outlet> */}
-            <ReactRouterDOM.Route index element={<ReactRouterDOM.Navigate to="dashboard" replace />} />
-            <ReactRouterDOM.Route path="dashboard" element={<Dashboard />} />
-            <ReactRouterDOM.Route path="learn" element={<Learn />} />
-            <ReactRouterDOM.Route path="tests" element={<Tests />} />
-            <ReactRouterDOM.Route path="tests/:quizId" element={<Quiz />} />
-            <ReactRouterDOM.Route path="tests/repetition" element={<RepetitionTest />} />
-            <ReactRouterDOM.Route path="games" element={<Games />} />
-            <ReactRouterDOM.Route path="profile" element={<Profile />} />
-          </ReactRouterDOM.Route>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="learn" element={<Learn />} />
+            <Route path="tests" element={<Tests />} />
+            <Route path="tests/:quizId" element={<Quiz />} />
+            <Route path="tests/repetition" element={<RepetitionTest />} />
+            <Route path="games" element={<Games />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
           {/* LearnSession is now a standalone route for a true full-screen experience */}
-          <ReactRouterDOM.Route path="/app/learn/session" element={
+          <Route path="/app/learn/session" element={
             <ProtectedRoute>
               <LearnSession />
             </ProtectedRoute>
           } />
-          <ReactRouterDOM.Route path="/" element={<ReactRouterDOM.Navigate to="/app/dashboard" replace />} />
-        </ReactRouterDOM.Routes>
-      </ReactRouterDOM.HashRouter>
+          <Route path="/" element={<Navigate to="/app/dashboard" replace />} />
+        </Routes>
+      </HashRouter>
     </AuthProvider>
   );
 }

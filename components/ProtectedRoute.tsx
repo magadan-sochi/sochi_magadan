@@ -1,12 +1,12 @@
 
 import React, { ReactNode } from 'react';
-// FIX: Switched to namespace import for react-router-dom to resolve module resolution errors.
-import * as ReactRouterDOM from 'react-router-dom';
+// FIX: Switched to named imports for react-router-dom to resolve module resolution errors.
+import { useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const ProtectedRoute: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user, loading } = useAuth();
-  const location = ReactRouterDOM.useLocation();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -17,7 +17,7 @@ const ProtectedRoute: React.FC<{ children: ReactNode }> = ({ children }) => {
   }
 
   if (!user) {
-    return <ReactRouterDOM.Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;
