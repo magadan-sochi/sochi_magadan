@@ -18,6 +18,7 @@ import Profile from './pages/app/Profile';
 import RepetitionTest from './pages/app/RepetitionTest';
 
 function App() {
+  console.log("App component is rendering.");
   return (
     <AuthProvider>
       <HashRouter>
