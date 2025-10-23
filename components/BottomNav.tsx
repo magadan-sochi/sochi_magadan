@@ -1,7 +1,7 @@
 
 import React from 'react';
-// FIX: Switched to named imports for react-router-dom to resolve component access errors.
-import { NavLink } from "react-router-dom";
+// FIX: Switched to namespace import for react-router-dom to resolve module resolution errors.
+import * as ReactRouterDOM from "react-router-dom";
 import { HomeIcon } from './icons/HomeIcon';
 import { BookOpenIcon } from './icons/BookOpenIcon';
 import { FileTextIcon } from './icons/FileTextIcon';
@@ -21,7 +21,7 @@ const BottomNav: React.FC = () => {
     <nav className="fixed bottom-0 left-0 right-0 h-16 bg-background border-t border-border z-50">
       <div className="flex justify-around items-center h-full max-w-lg mx-auto">
         {navItems.map(({ path, label, icon: Icon }) => (
-          <NavLink
+          <ReactRouterDOM.NavLink
             key={path}
             to={path}
             className={({ isActive }) =>
@@ -32,7 +32,7 @@ const BottomNav: React.FC = () => {
           >
             <Icon className="w-6 h-6" />
             <span className="text-xs mt-1">{label}</span>
-          </NavLink>
+          </ReactRouterDOM.NavLink>
         ))}
       </div>
     </nav>

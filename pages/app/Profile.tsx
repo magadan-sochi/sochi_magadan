@@ -8,12 +8,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/Avatar'
 import Button from '../../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { Trophy, Star } from 'lucide-react';
-// FIX: Switched to named imports for react-router-dom to resolve component access errors.
-import { useNavigate } from 'react-router-dom';
+// FIX: Switched to namespace import for react-router-dom to resolve module resolution errors.
+import * as ReactRouterDOM from 'react-router-dom';
 
 const Profile: React.FC = () => {
     const { user } = useAuth();
-    const navigate = useNavigate();
+    const navigate = ReactRouterDOM.useNavigate();
     const [activeTab, setActiveTab] = useState<'stats' | 'achievements'>('stats');
     const [allAchievements, setAllAchievements] = useState<Achievement[]>([]);
     const [userAchievementIds, setUserAchievementIds] = useState<Set<number>>(new Set());

@@ -1,8 +1,8 @@
 
 
 import React, { useState, useEffect } from 'react';
-// FIX: Switched to named imports for react-router-dom to resolve component access errors.
-import { useParams, useNavigate } from 'react-router-dom';
+// FIX: Switched to namespace import for react-router-dom to resolve module resolution errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { supabase } from '../../services/supabase';
 import type { Question, Answer, Quiz as QuizType } from '../../types';
 import { Progress } from '../../components/ui/Progress';
@@ -10,8 +10,8 @@ import Button from '../../components/ui/Button';
 import { Card, CardContent } from '../../components/ui/Card';
 
 const Quiz: React.FC = () => {
-    const { quizId } = useParams<{quizId: string}>();
-    const navigate = useNavigate();
+    const { quizId } = ReactRouterDOM.useParams<{quizId: string}>();
+    const navigate = ReactRouterDOM.useNavigate();
     const [quiz, setQuiz] = useState<QuizType | null>(null);
     const [questions, setQuestions] = useState<Question[]>([]);
     const [answers, setAnswers] = useState<Answer[]>([]);

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-// FIX: Switched to named imports for react-router-dom to resolve component access errors.
-import { useNavigate } from 'react-router-dom';
+// FIX: Switched to namespace import for react-router-dom to resolve module resolution errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { supabase } from '../services/supabase';
 import Button from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const navigate = ReactRouterDOM.useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

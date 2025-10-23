@@ -96,21 +96,25 @@
         },
       }
     </script>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.4",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.546.0",
-    "@supabase/supabase-js": "https://aistudiocdn.com/@supabase/supabase-js@^2.45.0",
-    "react-router": "https://aistudiocdn.com/react-router@^7.9.4"
-  }
-}
-</script>
-</head>
+    <!-- Babel for in-browser TSX compilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="importmap">
+    {
+      "imports": {
+        "react/": "https://aistudiocdn.com/react@^19.2.0/",
+        "react": "https://aistudiocdn.com/react@^19.2.0",
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+        "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.4",
+        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.546.0",
+        "@supabase/supabase-js": "https://aistudiocdn.com/@supabase/supabase-js@^2.45.0",
+        "react-router": "https://aistudiocdn.com/react-router@^7.9.4"
+      }
+    }
+    </script>
+  </head>
   <body class="bg-gradient-to-b from-background to-slate-900 text-foreground">
     <div id="root"></div>
+    <!-- Application entry point -->
+    <script type="text/babel" data-type="module" src="./index.tsx"></script>
   </body>
 </html>

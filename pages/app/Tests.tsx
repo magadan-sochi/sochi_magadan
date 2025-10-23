@@ -1,8 +1,8 @@
 
 
 import React, { useState, useEffect } from 'react';
-// FIX: Switched to named imports for react-router-dom to resolve component access errors.
-import { useNavigate } from 'react-router-dom';
+// FIX: Switched to namespace import for react-router-dom to resolve module resolution errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { supabase } from '../../services/supabase';
 import type { Quiz } from '../../types';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/Card';
@@ -11,7 +11,7 @@ import { RefreshCw } from 'lucide-react';
 
 const Tests: React.FC = () => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
-    const navigate = useNavigate();
+    const navigate = ReactRouterDOM.useNavigate();
 
     useEffect(() => {
         const fetchQuizzes = async () => {

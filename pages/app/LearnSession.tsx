@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-// FIX: Switched to named imports for react-router-dom to resolve component access errors.
-import { useLocation, useNavigate } from 'react-router-dom';
+// FIX: Switched to namespace import for react-router-dom to resolve module resolution errors.
+import * as ReactRouterDOM from 'react-router-dom';
 import { supabase } from '../../services/supabase';
 import type { MenuItem } from '../../types';
 import { useAuth } from '../../hooks/useAuth';
@@ -69,8 +69,8 @@ export const LearnSession: React.FC = () => {
     const [swipeClass, setSwipeClass] = useState('');
     const touchStartPos = useRef<number | null>(null);
 
-    const location = useLocation();
-    const navigate = useNavigate();
+    const location = ReactRouterDOM.useLocation();
+    const navigate = ReactRouterDOM.useNavigate();
     const { categoryId, categoryName, fetchAll } = (location.state as { categoryId?: number; categoryName?: string, fetchAll?: boolean }) || {};
 
     useEffect(() => {
