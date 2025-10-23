@@ -1,12 +1,12 @@
+
 import React from 'react';
-// FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
-// FIX-GEMINI: Using NavLink from react-router-dom v5.
+// FIX: Use a direct named import for the NavLink component.
 import { NavLink } from "react-router-dom";
-import { HomeIcon } from './icons/HomeIcon.tsx';
-import { BookOpenIcon } from './icons/BookOpenIcon.tsx';
-import { FileTextIcon } from './icons/FileTextIcon.tsx';
-import { Gamepad2Icon } from './icons/Gamepad2Icon.tsx';
-import { UserIcon } from './icons/UserIcon.tsx';
+import { HomeIcon } from './icons/HomeIcon';
+import { BookOpenIcon } from './icons/BookOpenIcon';
+import { FileTextIcon } from './icons/FileTextIcon';
+import { Gamepad2Icon } from './icons/Gamepad2Icon';
+import { UserIcon } from './icons/UserIcon';
 
 const navItems = [
   { path: '/app/dashboard', label: 'Главная', icon: HomeIcon },

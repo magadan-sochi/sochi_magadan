@@ -3,14 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--
-      CRITICAL FIX FOR GITHUB PAGES:
-      The <base> tag specifies the base URL for all relative URLs in the page.
-      Since GitHub Pages hosts projects in a subdirectory (e.g., /sochi_magadan/),
-      this ensures that asset requests like "./index.tsx" are correctly resolved to
-      "/sochi_magadan/index.tsx" instead of "/index.tsx".
-    -->
-    <base href="/sochi_magadan/" />
     <title>Restaurant Staff Training</title>
     <style>
       /* Hide scrollbar for Chrome, Safari and Opera */
@@ -104,25 +96,21 @@
         },
       }
     </script>
-    <!-- Babel for in-browser TSX compilation -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script type="importmap">
-    {
-      "imports": {
-        "react/": "https://aistudiocdn.com/react@^19.2.0/",
-        "react": "https://aistudiocdn.com/react@^19.2.0",
-        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-        "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.4",
-        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.546.0",
-        "@supabase/supabase-js": "https://aistudiocdn.com/@supabase/supabase-js@^2.45.0",
-        "react-router": "https://aistudiocdn.com/react-router@^7.9.4"
-      }
-    }
-    </script>
-  </head>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.4",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.546.0",
+    "@supabase/supabase-js": "https://aistudiocdn.com/@supabase/supabase-js@^2.45.0",
+    "react-router": "https://aistudiocdn.com/react-router@^7.9.4"
+  }
+}
+</script>
+</head>
   <body class="bg-gradient-to-b from-background to-slate-900 text-foreground">
     <div id="root"></div>
-    <!-- Application entry point -->
-    <script type="text/babel" data-type="module" src="./index.tsx"></script>
   </body>
 </html>

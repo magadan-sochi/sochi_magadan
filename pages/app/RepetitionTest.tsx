@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-// FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
-// FIX-GEMINI: Downgrading react-router-dom hooks to v5 to fix module export errors.
-import { useHistory } from 'react-router-dom';
-import { supabase } from '../../services/supabase.ts';
-import type { MenuItem } from '../../types.ts';
-import { useAuth } from '../../hooks/useAuth.tsx';
-import Button from '../../components/ui/Button.tsx';
-import { Input } from '../../components/ui/Input.tsx';
-import { Card } from '../../components/ui/Card.tsx';
-import { AutocompleteInput } from '../../components/ui/AutocompleteInput.tsx';
+// FIX: Use a direct named import for the useNavigate hook.
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../services/supabase';
+import type { MenuItem } from '../../types';
+import { useAuth } from '../../hooks/useAuth';
+import Button from '../../components/ui/Button';
+import { Input } from '../../components/ui/Input';
+import { Card } from '../../components/ui/Card';
+import { AutocompleteInput } from '../../components/ui/AutocompleteInput';
 
 type UserAnswers = {
     ingredients: Set<string>;
@@ -67,8 +66,7 @@ const TimerCircle: React.FC<{ timeLeft: number; totalTime: number }> = ({ timeLe
 
 const RepetitionTest: React.FC = () => {
     const { user } = useAuth();
-    // FIX-GEMINI: Using useHistory hook for v5 compatibility.
-    const history = useHistory();
+    const navigate = useNavigate();
     const [deck, setDeck] = useState<MenuItem[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
@@ -132,18 +130,6 @@ const RepetitionTest: React.FC = () => {
     }, [user]);
 
     const currentItem = useMemo(() => deck[currentIndex], [deck, currentIndex]);
-
-    const updateRating = useCallback(async (points: number) => {
-        if (!user) return;
-        // This RPC function should handle incrementing the user's rating atomically.
-        const { error } = await supabase.rpc('increment_user_rating', {
-            user_id_in: user.id,
-            rating_change: points
-        });
-        if (error) {
-            console.error('Failed to update rating via RPC. Maybe the function does not exist?', error);
-        }
-    }, [user]);
     
     const advanceToNextCard = useCallback(() => {
         setFeedback(null);
@@ -182,8 +168,6 @@ const RepetitionTest: React.FC = () => {
     
         const score = totalPossiblePoints > 0 ? (Math.max(0, userPoints) / totalPossiblePoints) * 100 : 100;
         const passed = score >= 85;
-    
-        await updateRating(passed ? 10 : -5);
 
         if (!passed) {
             await supabase
@@ -205,7 +189,7 @@ const RepetitionTest: React.FC = () => {
             setIsChecking(false);
             advanceToNextCard();
         }, 2000);
-    }, [user, currentItem, userAnswers, isChecking, feedback, advanceToNextCard, updateRating]);
+    }, [user, currentItem, userAnswers, isChecking, feedback, advanceToNextCard]);
 
     // Timer countdown effect
     useEffect(() => {
@@ -225,12 +209,17 @@ const RepetitionTest: React.FC = () => {
     useEffect(() => {
         if (timeLeft === 0 && !feedback && currentItem) {
             (async () => {
-                await updateRating(-5);
                 setFeedback({ score: 0, passed: false, reason: 'time_up' });
+                // Demote card if time is up
+                 await supabase
+                    .from('user_learning_progress')
+                    .update({ status: 'learning', familiarity_score: 25 })
+                    .eq('user_id', user!.id)
+                    .eq('menu_item_id', currentItem.id);
                 setTimeout(advanceToNextCard, 2000);
             })();
         }
-    }, [timeLeft, feedback, currentItem, advanceToNextCard, updateRating]);
+    }, [timeLeft, feedback, currentItem, advanceToNextCard, user]);
 
 
     const handleAnswerChange = (type: 'ingredients' | 'allergens', value: string) => {
@@ -258,8 +247,7 @@ const RepetitionTest: React.FC = () => {
                     <p className="text-muted-foreground mt-1">
                         {deck.length > 0 ? 'Вы повторили все карточки!' : 'У вас пока нет карточек для повторения.'}
                     </p>
-                    {/* FIX-GEMINI: Using history.push for v5 navigation. */}
-                    <Button onClick={() => history.push('/app/tests')} className="mt-6 w-full">Вернуться к тестам</Button>
+                    <Button onClick={() => navigate('/app/tests')} className="mt-6 w-full">Вернуться к тестам</Button>
                 </Card>
             </div>
         );
@@ -319,11 +307,11 @@ const RepetitionTest: React.FC = () => {
                 
                 {feedback && (
                     <div className={`mt-4 p-4 rounded-lg text-center font-bold transition-opacity ${feedback.passed ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'}`}>
-                        {feedback.reason === 'time_up' 
-                            ? 'Время вышло! -5 очков.'
-                            : feedback.passed 
-                                ? `Отлично! +10 очков. Ваш результат: ${feedback.score.toFixed(0)}%` 
-                                : `Нужно повторить. -5 очков. Результат: ${feedback.score.toFixed(0)}%`}
+                        {feedback.reason === 'time_up'
+                            ? 'Время вышло! Попробуйте в следующий раз.'
+                            : feedback.passed
+                                ? `Отлично! Знания закреплены. Результат: ${feedback.score.toFixed(0)}%`
+                                : `Нужно повторить. Карточка отправлена на доработку. Результат: ${feedback.score.toFixed(0)}%`}
                     </div>
                 )}
             </div>

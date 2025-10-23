@@ -1,19 +1,18 @@
+
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../hooks/useAuth.tsx';
-import { supabase } from '../../services/supabase.ts';
-import type { Achievement } from '../../types.ts';
-import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/Avatar.tsx';
-import Button from '../../components/ui/Button.tsx';
-import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card.tsx';
-import { Trophy, Star } from 'lucide-react';
-// FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
-// FIX-GEMINI: Downgrading react-router-dom hooks to v5 to fix module export errors.
-import { useHistory } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { supabase } from '../../services/supabase';
+import type { Achievement } from '../../types';
+import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/Avatar';
+import Button from '../../components/ui/Button';
+import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
+import { Trophy } from 'lucide-react';
+// FIX: Use a direct named import for the useNavigate hook.
+import { useNavigate } from 'react-router-dom';
 
 const Profile: React.FC = () => {
     const { user } = useAuth();
-    // FIX-GEMINI: Using useHistory hook for v5 compatibility.
-    const history = useHistory();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState<'stats' | 'achievements'>('stats');
     const [allAchievements, setAllAchievements] = useState<Achievement[]>([]);
     const [userAchievementIds, setUserAchievementIds] = useState<Set<number>>(new Set());
@@ -26,19 +25,6 @@ const Profile: React.FC = () => {
         const fetchProfileData = async () => {
             console.log(`Profile: Fetching data for user: ${user.id}`);
             
-            // Fetch user-specific data like rating
-            const { data: userData, error: userError } = await supabase
-                .from('users')
-                .select('rating')
-                .eq('id', user.id)
-                .single();
-
-            if (userError) {
-                console.error("Profile: Error fetching user data:", userError);
-            } else if (userData) {
-                setRating(userData.rating || 0);
-            }
-
             // Fetch achievements
             const { data: allAchData, error: allAchError } = await supabase.from('achievements').select();
             const { data: userAchData, error: userAchError } = await supabase
@@ -56,7 +42,7 @@ const Profile: React.FC = () => {
                 setUserAchievementIds(ids);
             }
 
-            // Fetch learning stats
+            // Fetch learning stats and calculate rating
             const { count, error: countError } = await supabase
                 .from('user_learning_progress')
                 .select('*', { count: 'exact', head: true })
@@ -68,6 +54,18 @@ const Profile: React.FC = () => {
             } else {
                 setLearnedCardsCount(count || 0);
             }
+            
+            const { data: progressData, error: progressError } = await supabase
+              .from('user_learning_progress')
+              .select('familiarity_score')
+              .eq('user_id', user.id);
+
+            if (progressError) {
+              console.error("Profile: Error fetching progress for rating calc:", progressError);
+            } else if (progressData) {
+              const totalFamiliarity = progressData.reduce((sum, p) => sum + p.familiarity_score, 0);
+              setRating(totalFamiliarity);
+            }
         };
 
         fetchProfileData();
@@ -75,8 +73,7 @@ const Profile: React.FC = () => {
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
-        // FIX-GEMINI: Using history.push for v5 navigation.
-        history.push('/login');
+        navigate('/login');
     };
 
     return (

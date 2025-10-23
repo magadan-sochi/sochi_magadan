@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useMemo } from 'react';
-import { supabase } from '../services/supabase.ts';
-import type { User } from '../types.ts';
+import { supabase } from '../services/supabase';
+import type { User } from '../types';
 
 interface AuthContextType {
   user: User | null;
@@ -14,15 +14,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set up the listener for authentication state changes
+    setLoading(true);
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('Auth state changed:', { event, session });
-      
+      let fullUserData: User | null = null;
       if (session?.user) {
         // User is logged in, fetch their profile from public.users
         const { data: profile, error } = await supabase
           .from('users')
-          .select('full_name') // Only select what's needed
+          .select('full_name')
           .eq('id', session.user.id)
           .single();
 
@@ -30,31 +30,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           console.error('Error fetching user profile:', error);
         }
         
-        setUser(currentUser => {
-          const newUser: User = {
-            ...session.user,
-            full_name: profile?.full_name,
-          };
-
-          // This check prevents unnecessary re-renders when the session token is refreshed
-          // but the actual user data hasn't changed.
-          if (currentUser && currentUser.id === newUser.id && currentUser.full_name === newUser.full_name) {
-            console.log('User data is unchanged. Preventing re-render.');
-            return currentUser; // Return the existing state object
-          }
-
-          console.log('User data has changed or is new. Updating state.');
-          return newUser;
-        });
-
-      } else {
-        // User is logged out
-        setUser(null);
+        // Combine auth user data with public profile data
+        fullUserData = {
+          ...session.user,
+          full_name: profile?.full_name,
+        };
       }
+      
+      setUser(fullUserData);
       setLoading(false);
     });
 
-    // Clean up the subscription when the component unmounts
+    // Clean up the subscription when the component unmounts.
     return () => {
       subscription.unsubscribe();
     };

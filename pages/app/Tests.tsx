@@ -1,17 +1,17 @@
+
+
 import React, { useState, useEffect } from 'react';
-// FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
-// FIX-GEMINI: Downgrading react-router-dom hooks to v5 to fix module export errors.
-import { useHistory } from 'react-router-dom';
-import { supabase } from '../../services/supabase.ts';
-import type { Quiz } from '../../types.ts';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/Card.tsx';
-import { FileTextIcon } from '../../components/icons/FileTextIcon.tsx';
+// FIX: Use a direct named import for the useNavigate hook.
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../services/supabase';
+import type { Quiz } from '../../types';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/Card';
+import { FileTextIcon } from '../../components/icons/FileTextIcon';
 import { RefreshCw } from 'lucide-react';
 
 const Tests: React.FC = () => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
-    // FIX-GEMINI: Using useHistory hook for v5 compatibility.
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchQuizzes = async () => {
@@ -32,8 +32,7 @@ const Tests: React.FC = () => {
             <h1 className="text-3xl font-bold mb-6">Тесты</h1>
             <p className="text-muted-foreground mb-8">Проверьте свои знания, пройдя один из тестов.</p>
             <div className="space-y-4">
-                {/* FIX-GEMINI: Using history.push for v5 navigation. */}
-                <Card className="hover:bg-accent/50 transition-colors cursor-pointer" onClick={() => history.push(`/app/tests/repetition`)}>
+                <Card className="hover:bg-accent/50 transition-colors cursor-pointer" onClick={() => navigate(`/app/tests/repetition`)}>
                     <CardHeader>
                         <div className="flex items-start space-x-4">
                             <RefreshCw className="w-6 h-6 mt-1 text-primary"/>
@@ -46,8 +45,7 @@ const Tests: React.FC = () => {
                 </Card>
 
                 {quizzes.map(quiz => (
-                    // FIX-GEMINI: Using history.push for v5 navigation.
-                    <Card key={quiz.id} className="hover:bg-accent/50 transition-colors cursor-pointer" onClick={() => history.push(`/app/tests/${quiz.id}`)}>
+                    <Card key={quiz.id} className="hover:bg-accent/50 transition-colors cursor-pointer" onClick={() => navigate(`/app/tests/${quiz.id}`)}>
                         <CardHeader>
                             <div className="flex items-start space-x-4">
                                 <FileTextIcon className="w-6 h-6 mt-1 text-primary"/>

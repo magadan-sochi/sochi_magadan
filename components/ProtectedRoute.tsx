@@ -1,8 +1,8 @@
+
 import React, { ReactNode } from 'react';
-// FIX: Switched to named imports for react-router-dom to resolve module resolution errors.
-// FIX-GEMINI: Downgrading react-router-dom imports to v5 to fix module export errors.
-import { useLocation, Redirect } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth.tsx';
+// FIX: Use direct named imports for react-router-dom hooks and components.
+import { useLocation, Navigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const ProtectedRoute: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user, loading } = useAuth();
@@ -17,8 +17,7 @@ const ProtectedRoute: React.FC<{ children: ReactNode }> = ({ children }) => {
   }
 
   if (!user) {
-    // FIX-GEMINI: Using <Redirect> component for v5 compatibility, passing state in the `to` object.
-    return <Redirect to={{ pathname: "/login", state: { from: location } }} />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;
