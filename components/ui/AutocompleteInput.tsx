@@ -82,7 +82,8 @@ export const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
       )}
 
       <div className="flex flex-wrap gap-2 mt-3 min-h-[2.5rem]">
-        {Array.from(selectedItems).map(item => (
+        {/* FIX: Use spread syntax for better type inference on Set iteration. */}
+        {[...selectedItems].map(item => (
           <div key={item} className="flex items-center bg-primary text-primary-foreground text-sm font-medium px-3 py-1.5 rounded-full animate-in fade-in-50">
             <span>{capitalizeFirstLetter(item)}</span>
             <button onClick={() => onRemoveItem(item)} className="ml-2 -mr-1 p-0.5 rounded-full hover:bg-primary/80 transition-colors">
