@@ -1,20 +1,20 @@
 import React from 'react';
 // FIX: Use direct named imports for react-router-dom components.
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './hooks/useAuth';
-import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './hooks/useAuth.js';
+import ProtectedRoute from './components/ProtectedRoute.js';
 
 // Page Imports
-import LoginPage from './pages/Login';
-import AppLayout from './pages/app/AppLayout';
-import Dashboard from './pages/app/Dashboard';
-import Learn from './pages/app/Learn';
-import LearnSession from './pages/app/LearnSession';
-import Tests from './pages/app/Tests';
-import Quiz from './pages/app/Quiz';
-import Games from './pages/app/Games';
-import Profile from './pages/app/Profile';
-import RepetitionTest from './pages/app/RepetitionTest';
+import LoginPage from './pages/Login.js';
+import AppLayout from './pages/app/AppLayout.js';
+import Dashboard from './pages/app/Dashboard.js';
+import Learn from './pages/app/Learn.js';
+import LearnSession from './pages/app/LearnSession.js';
+import Tests from './pages/app/Tests.js';
+import Quiz from './pages/app/Quiz.js';
+import Games from './pages/app/Games.js';
+import Profile from './pages/app/Profile.js';
+import RepetitionTest from './pages/app/RepetitionTest.js';
 
 function App() {
   console.log("App component is rendering.");

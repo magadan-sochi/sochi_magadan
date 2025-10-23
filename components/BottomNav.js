@@ -1,11 +1,11 @@
 import React from 'react';
 // FIX: Use a direct named import for the NavLink component.
 import { NavLink } from "react-router-dom";
-import { HomeIcon } from './icons/HomeIcon';
-import { BookOpenIcon } from './icons/BookOpenIcon';
-import { FileTextIcon } from './icons/FileTextIcon';
-import { Gamepad2Icon } from './icons/Gamepad2Icon';
-import { UserIcon } from './icons/UserIcon';
+import { HomeIcon } from './icons/HomeIcon.js';
+import { BookOpenIcon } from './icons/BookOpenIcon.js';
+import { FileTextIcon } from './icons/FileTextIcon.js';
+import { Gamepad2Icon } from './icons/Gamepad2Icon.js';
+import { UserIcon } from './icons/UserIcon.js';
 
 const navItems = [
   { path: '/app/dashboard', label: 'Главная', icon: HomeIcon },

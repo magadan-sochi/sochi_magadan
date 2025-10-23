@@ -1,7 +1,7 @@
 import React from 'react';
 // FIX: Use a direct named import for the Outlet component.
 import { Outlet } from 'react-router-dom';
-import BottomNav from '../../components/BottomNav';
+import BottomNav from '../../components/BottomNav.js';
 
 const AppLayout: React.FC = () => {
   return (

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 // FIX: Use direct named imports for react-router-dom hooks.
 import { useLocation, useNavigate } from 'react-router-dom';
-import { supabase } from '../../services/supabase';
-import type { MenuItem } from '../../types';
-import { useAuth } from '../../hooks/useAuth';
+import { supabase } from '../../services/supabase.js';
+import type { MenuItem } from '../../types.js';
+import { useAuth } from '../../hooks/useAuth.js';
 
 const Flashcard: React.FC<{ item: MenuItem; onFlip: () => void; isFlipped: boolean }> = ({ item, onFlip, isFlipped }) => {
     const ingredients = item.key_features?.ingredients;

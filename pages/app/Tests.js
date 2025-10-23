@@ -1,12 +1,10 @@
-
-
 import React, { useState, useEffect } from 'react';
 // FIX: Use a direct named import for the useNavigate hook.
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../services/supabase';
-import type { Quiz } from '../../types';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/Card';
-import { FileTextIcon } from '../../components/icons/FileTextIcon';
+import { supabase } from '../../services/supabase.js';
+import type { Quiz } from '../../types.js';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/Card.js';
+import { FileTextIcon } from '../../components/icons/FileTextIcon.js';
 import { RefreshCw } from 'lucide-react';
 
 const Tests: React.FC = () => {

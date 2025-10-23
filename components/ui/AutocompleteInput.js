@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Input } from './Input';
+import { Input } from './Input.js';
 import { X } from 'lucide-react';
 
 interface AutocompleteInputProps {

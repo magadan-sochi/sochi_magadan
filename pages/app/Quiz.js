@@ -1,13 +1,11 @@
-
-
 import React, { useState, useEffect } from 'react';
 // FIX: Use direct named imports for react-router-dom hooks.
 import { useParams, useNavigate } from 'react-router-dom';
-import { supabase } from '../../services/supabase';
-import type { Question, Answer, Quiz as QuizType } from '../../types';
-import { Progress } from '../../components/ui/Progress';
-import Button from '../../components/ui/Button';
-import { Card, CardContent } from '../../components/ui/Card';
+import { supabase } from '../../services/supabase.js';
+import type { Question, Answer, Quiz as QuizType } from '../../types.js';
+import { Progress } from '../../components/ui/Progress.js';
+import Button from '../../components/ui/Button.js';
+import { Card, CardContent } from '../../components/ui/Card.js';
 
 const Quiz: React.FC = () => {
     const { quizId } = useParams<{quizId: string}>();

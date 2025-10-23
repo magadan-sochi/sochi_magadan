@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/Card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/Card.js';
 import { Utensils, Zap } from 'lucide-react';
 
 const Games: React.FC = () => {

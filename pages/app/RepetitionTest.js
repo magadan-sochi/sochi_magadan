@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 // FIX: Use a direct named import for the useNavigate hook.
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../services/supabase';
-import type { MenuItem } from '../../types';
-import { useAuth } from '../../hooks/useAuth';
-import Button from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input';
-import { Card } from '../../components/ui/Card';
-import { AutocompleteInput } from '../../components/ui/AutocompleteInput';
+import { supabase } from '../../services/supabase.js';
+import type { MenuItem } from '../../types.js';
+import { useAuth } from '../../hooks/useAuth.js';
+import Button from '../../components/ui/Button.js';
+import { Input } from '../../components/ui/Input.js';
+import { Card } from '../../components/ui/Card.js';
+import { AutocompleteInput } from '../../components/ui/AutocompleteInput.js';
 
 type UserAnswers = {
     ingredients: Set<string>;

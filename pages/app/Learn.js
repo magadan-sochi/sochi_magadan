@@ -1,12 +1,10 @@
-
-
 import React, { useState, useEffect } from 'react';
 // FIX: Use a direct named import for the useNavigate hook.
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../services/supabase';
-import type { MenuSection, MenuCategory, SectionCategory } from '../../types';
-import Button from '../../components/ui/Button';
-import { Card, CardContent } from '../../components/ui/Card';
+import { supabase } from '../../services/supabase.js';
+import type { MenuSection, MenuCategory, SectionCategory } from '../../types.js';
+import Button from '../../components/ui/Button.js';
+import { Card, CardContent } from '../../components/ui/Card.js';
 import { ArrowRight } from 'lucide-react';
 
 interface SectionWithCategories extends MenuSection {

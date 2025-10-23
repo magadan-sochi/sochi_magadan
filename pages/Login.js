@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 // FIX: Use a direct named import for the useNavigate hook.
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../services/supabase';
-import Button from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../components/ui/Card';
+import { supabase } from '../services/supabase.js';
+import Button from '../components/ui/Button.js';
+import { Input } from '../components/ui/Input.js';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../components/ui/Card.js';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('123@gmail.com');

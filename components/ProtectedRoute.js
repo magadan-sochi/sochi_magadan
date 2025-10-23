@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 // FIX: Use direct named imports for react-router-dom hooks and components.
 import { useLocation, Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth.js';
 
 const ProtectedRoute: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user, loading } = useAuth();

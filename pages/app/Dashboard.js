@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import { supabase } from '../../services/supabase';
-import type { Achievement } from '../../types';
-import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/Avatar';
-import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
-import { BookOpenIcon } from '../../components/icons/BookOpenIcon';
+import { useAuth } from '../../hooks/useAuth.js';
+import { supabase } from '../../services/supabase.js';
+import type { Achievement } from '../../types.js';
+import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/Avatar.js';
+import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card.js';
+import { BookOpenIcon } from '../../components/icons/BookOpenIcon.js';
 import { Trophy, ArrowRight } from 'lucide-react';
 // FIX: Use a direct named import for the useNavigate hook.
 import { useNavigate } from 'react-router-dom';
