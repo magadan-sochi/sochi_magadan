@@ -1,14 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import { supabase } from '../../services/supabase';
-import type { Achievement } from '../../types';
-import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/Avatar';
-import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
-import { BookOpenIcon } from '../../components/icons/BookOpenIcon';
+import { useAuth } from '../../hooks/useAuth.tsx';
+import { supabase } from '../../services/supabase.ts';
+import type { Achievement } from '../../types.ts';
+import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/Avatar.tsx';
+import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card.tsx';
+import { BookOpenIcon } from '../../components/icons/BookOpenIcon.tsx';
 import { Trophy, ArrowRight } from 'lucide-react';
 // FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
-import { useNavigate } from 'react-router-dom';
+// FIX-GEMINI: Downgrading react-router-dom hooks to v5 to fix module export errors.
+import { useHistory } from 'react-router-dom';
 
 
 const ProgressCircle: React.FC<{ progress: number; radius?: number; strokeWidth?: number }> = ({ progress, radius = 60, strokeWidth = 10 }) => {
@@ -50,7 +50,8 @@ const ProgressCircle: React.FC<{ progress: number; radius?: number; strokeWidth?
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
+  // FIX-GEMINI: Using useHistory hook for v5 compatibility.
+  const history = useHistory();
   const [progress, setProgress] = useState(0);
   const [learnedCount, setLearnedCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
@@ -140,7 +141,8 @@ const Dashboard: React.FC = () => {
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">Начните сегодня</h2>
         <Card 
-          onClick={() => navigate('/app/learn')}
+          // FIX-GEMINI: Using history.push for v5 navigation.
+          onClick={() => history.push('/app/learn')}
           className="cursor-pointer group relative overflow-hidden bg-gradient-to-r from-green-500/80 to-teal-500/80 p-5 border-teal-400/50 transition-transform hover:scale-105"
         >
           <div className="absolute -top-4 -right-4 w-20 h-20 bg-white/20 rounded-full transition-transform group-hover:scale-[15]"></div>

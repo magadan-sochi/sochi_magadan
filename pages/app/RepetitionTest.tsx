@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 // FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../services/supabase';
-import type { MenuItem } from '../../types';
-import { useAuth } from '../../hooks/useAuth';
-import Button from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input';
-import { Card } from '../../components/ui/Card';
-import { AutocompleteInput } from '../../components/ui/AutocompleteInput';
+// FIX-GEMINI: Downgrading react-router-dom hooks to v5 to fix module export errors.
+import { useHistory } from 'react-router-dom';
+import { supabase } from '../../services/supabase.ts';
+import type { MenuItem } from '../../types.ts';
+import { useAuth } from '../../hooks/useAuth.tsx';
+import Button from '../../components/ui/Button.tsx';
+import { Input } from '../../components/ui/Input.tsx';
+import { Card } from '../../components/ui/Card.tsx';
+import { AutocompleteInput } from '../../components/ui/AutocompleteInput.tsx';
 
 type UserAnswers = {
     ingredients: Set<string>;
@@ -66,7 +67,8 @@ const TimerCircle: React.FC<{ timeLeft: number; totalTime: number }> = ({ timeLe
 
 const RepetitionTest: React.FC = () => {
     const { user } = useAuth();
-    const navigate = useNavigate();
+    // FIX-GEMINI: Using useHistory hook for v5 compatibility.
+    const history = useHistory();
     const [deck, setDeck] = useState<MenuItem[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
@@ -256,7 +258,8 @@ const RepetitionTest: React.FC = () => {
                     <p className="text-muted-foreground mt-1">
                         {deck.length > 0 ? 'Вы повторили все карточки!' : 'У вас пока нет карточек для повторения.'}
                     </p>
-                    <Button onClick={() => navigate('/app/tests')} className="mt-6 w-full">Вернуться к тестам</Button>
+                    {/* FIX-GEMINI: Using history.push for v5 navigation. */}
+                    <Button onClick={() => history.push('/app/tests')} className="mt-6 w-full">Вернуться к тестам</Button>
                 </Card>
             </div>
         );

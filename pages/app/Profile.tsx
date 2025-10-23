@@ -1,19 +1,19 @@
-
-
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import { supabase } from '../../services/supabase';
-import type { Achievement } from '../../types';
-import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/Avatar';
-import Button from '../../components/ui/Button';
-import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
+import { useAuth } from '../../hooks/useAuth.tsx';
+import { supabase } from '../../services/supabase.ts';
+import type { Achievement } from '../../types.ts';
+import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/Avatar.tsx';
+import Button from '../../components/ui/Button.tsx';
+import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card.tsx';
 import { Trophy, Star } from 'lucide-react';
 // FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
-import { useNavigate } from 'react-router-dom';
+// FIX-GEMINI: Downgrading react-router-dom hooks to v5 to fix module export errors.
+import { useHistory } from 'react-router-dom';
 
 const Profile: React.FC = () => {
     const { user } = useAuth();
-    const navigate = useNavigate();
+    // FIX-GEMINI: Using useHistory hook for v5 compatibility.
+    const history = useHistory();
     const [activeTab, setActiveTab] = useState<'stats' | 'achievements'>('stats');
     const [allAchievements, setAllAchievements] = useState<Achievement[]>([]);
     const [userAchievementIds, setUserAchievementIds] = useState<Set<number>>(new Set());
@@ -75,7 +75,8 @@ const Profile: React.FC = () => {
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
-        navigate('/login');
+        // FIX-GEMINI: Using history.push for v5 navigation.
+        history.push('/login');
     };
 
     return (

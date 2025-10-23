@@ -1,12 +1,11 @@
-
-
 import React, { useState, useEffect } from 'react';
 // FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../services/supabase';
-import type { MenuSection, MenuCategory, SectionCategory } from '../../types';
-import Button from '../../components/ui/Button';
-import { Card, CardContent } from '../../components/ui/Card';
+// FIX-GEMINI: Downgrading react-router-dom hooks to v5 to fix module export errors.
+import { useHistory } from 'react-router-dom';
+import { supabase } from '../../services/supabase.ts';
+import type { MenuSection, MenuCategory, SectionCategory } from '../../types.ts';
+import Button from '../../components/ui/Button.tsx';
+import { Card, CardContent } from '../../components/ui/Card.tsx';
 import { ArrowRight } from 'lucide-react';
 
 interface SectionWithCategories extends MenuSection {
@@ -16,7 +15,8 @@ interface SectionWithCategories extends MenuSection {
 const Learn: React.FC = () => {
     const [sections, setSections] = useState<SectionWithCategories[]>([]);
     const [expandedSection, setExpandedSection] = useState<number | null>(null);
-    const navigate = useNavigate();
+    // FIX-GEMINI: Using useHistory hook for v5 compatibility.
+    const history = useHistory();
 
     useEffect(() => {
         const fetchMenuData = async () => {
@@ -63,7 +63,8 @@ const Learn: React.FC = () => {
             <p className="text-muted-foreground mb-8">Выберите раздел меню для начала изучения карточек.</p>
             
             <Card 
-              onClick={() => navigate('/app/learn/session', { state: { fetchAll: true, categoryName: 'Все меню' } })}
+              // FIX-GEMINI: Using history.push for v5 navigation.
+              onClick={() => history.push('/app/learn/session', { state: { fetchAll: true, categoryName: 'Все меню' } })}
               className="mb-6 cursor-pointer group relative overflow-hidden bg-gradient-to-r from-cyan-500/80 to-blue-500/80 p-5 border-blue-400/50 transition-transform hover:scale-105"
             >
               <div className="absolute -top-4 -right-4 w-20 h-20 bg-white/20 rounded-full transition-transform group-hover:scale-[15]"></div>
@@ -93,7 +94,8 @@ const Learn: React.FC = () => {
                                 {section.categories.map(category => (
                                     <div key={category.id} className="flex justify-between items-center p-2 rounded hover:bg-accent/50">
                                         <span>{category.name}</span>
-                                        <Button size="sm" onClick={() => navigate('/app/learn/session', { state: { categoryId: category.id, categoryName: category.name }})}>Начать</Button>
+                                        {/* FIX-GEMINI: Using history.push for v5 navigation. */}
+                                        <Button size="sm" onClick={() => history.push('/app/learn/session', { state: { categoryId: category.id, categoryName: category.name }})}>Начать</Button>
                                     </div>
                                 ))}
                             </div>

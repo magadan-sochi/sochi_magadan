@@ -1,18 +1,19 @@
-
 import React, { useState } from 'react';
 // FIX: Switched to a named import for react-router-dom to resolve module resolution errors.
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '../services/supabase';
-import Button from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../components/ui/Card';
+// FIX-GEMINI: Downgrading react-router-dom hooks to v5 to fix module export errors.
+import { useHistory } from 'react-router-dom';
+import { supabase } from '../services/supabase.ts';
+import Button from '../components/ui/Button.tsx';
+import { Input } from '../components/ui/Input.tsx';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../components/ui/Card.tsx';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('123@gmail.com');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  // FIX-GEMINI: Using useHistory hook for v5 compatibility.
+  const history = useHistory();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +34,8 @@ const LoginPage: React.FC = () => {
       }
     } else {
       console.log('Login successful, navigating to dashboard.');
-      navigate('/app/dashboard');
+      // FIX-GEMINI: Using history.push for v5 navigation.
+      history.push('/app/dashboard');
     }
     setLoading(false);
   };

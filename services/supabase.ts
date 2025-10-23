@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import type { User } from '../types';
+import type { User } from '../types.ts';
 
 // Provided Supabase credentials
 const supabaseUrl = 'https://fznwowvfkskxzqwxsorm.supabase.co';

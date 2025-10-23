@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 // FIX: Switched to named imports for react-router-dom to resolve module resolution errors.
-import { useLocation, useNavigate } from 'react-router-dom';
-import { supabase } from '../../services/supabase';
-import type { MenuItem } from '../../types';
-import { useAuth } from '../../hooks/useAuth';
+// FIX-GEMINI: Downgrading react-router-dom hooks to v5 to fix module export errors.
+import { useLocation, useHistory } from 'react-router-dom';
+import { supabase } from '../../services/supabase.ts';
+import type { MenuItem } from '../../types.ts';
+import { useAuth } from '../../hooks/useAuth.tsx';
 
 const Flashcard: React.FC<{ item: MenuItem; onFlip: () => void; isFlipped: boolean }> = ({ item, onFlip, isFlipped }) => {
     const ingredients = item.key_features?.ingredients;
@@ -70,13 +70,15 @@ export const LearnSession: React.FC = () => {
     const touchStartPos = useRef<number | null>(null);
 
     const location = useLocation();
-    const navigate = useNavigate();
+    // FIX-GEMINI: Using useHistory hook for v5 compatibility.
+    const history = useHistory();
     const { categoryId, categoryName, fetchAll } = (location.state as { categoryId?: number; categoryName?: string, fetchAll?: boolean }) || {};
 
     useEffect(() => {
         if (!categoryId && !fetchAll) {
             console.warn("LearnSession: No categoryId or fetchAll flag provided, redirecting.");
-            navigate('/app/learn');
+            // FIX-GEMINI: Using history.push for v5 navigation.
+            history.push('/app/learn');
             return;
         }
 
@@ -122,7 +124,7 @@ export const LearnSession: React.FC = () => {
             setIsLoading(false);
         };
         fetchCards();
-    }, [categoryId, fetchAll, navigate, user]);
+    }, [categoryId, fetchAll, history, user]);
 
     const currentItem = useMemo(() => deck[currentIndex], [deck, currentIndex]);
 
@@ -206,7 +208,8 @@ export const LearnSession: React.FC = () => {
                     <p className="mt-4 text-2xl font-bold text-white">Вы всё изучили!</p>
                     <p className="text-gray-300 mt-1">Отличная работа! Карточки, которые вы знаете, теперь доступны в разделе "Тесты" для повторения.</p>
                     <button 
-                        onClick={() => navigate('/app/learn')}
+                        // FIX-GEMINI: Using history.push for v5 navigation.
+                        onClick={() => history.push('/app/learn')}
                         className="mt-6 w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-cyan-500/30"
                     >
                         Вернуться к разделам

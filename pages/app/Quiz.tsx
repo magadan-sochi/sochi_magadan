@@ -1,17 +1,17 @@
-
-
 import React, { useState, useEffect } from 'react';
 // FIX: Switched to named imports for react-router-dom to resolve module resolution errors.
-import { useParams, useNavigate } from 'react-router-dom';
-import { supabase } from '../../services/supabase';
-import type { Question, Answer, Quiz as QuizType } from '../../types';
-import { Progress } from '../../components/ui/Progress';
-import Button from '../../components/ui/Button';
-import { Card, CardContent } from '../../components/ui/Card';
+// FIX-GEMINI: Downgrading react-router-dom hooks to v5 to fix module export errors.
+import { useParams, useHistory } from 'react-router-dom';
+import { supabase } from '../../services/supabase.ts';
+import type { Question, Answer, Quiz as QuizType } from '../../types.ts';
+import { Progress } from '../../components/ui/Progress.tsx';
+import Button from '../../components/ui/Button.tsx';
+import { Card, CardContent } from '../../components/ui/Card.tsx';
 
 const Quiz: React.FC = () => {
     const { quizId } = useParams<{quizId: string}>();
-    const navigate = useNavigate();
+    // FIX-GEMINI: Using useHistory hook for v5 compatibility.
+    const history = useHistory();
     const [quiz, setQuiz] = useState<QuizType | null>(null);
     const [questions, setQuestions] = useState<Question[]>([]);
     const [answers, setAnswers] = useState<Answer[]>([]);
@@ -34,7 +34,8 @@ const Quiz: React.FC = () => {
 
             if (quizError || !quizData) {
                 console.error("Quiz: Quiz not found:", quizError);
-                navigate('/app/tests');
+                // FIX-GEMINI: Using history.push for v5 navigation.
+                history.push('/app/tests');
                 return;
             }
             console.log("Quiz: Fetched quiz details:", quizData);
@@ -67,7 +68,7 @@ const Quiz: React.FC = () => {
             }
         };
         fetchQuizData();
-    }, [quizId, navigate]);
+    }, [quizId, history]);
 
     const handleAnswerSelect = (answerId: number) => {
         setSelectedAnswer(answerId);
@@ -91,7 +92,8 @@ const Quiz: React.FC = () => {
             <div className="flex flex-col items-center justify-center h-screen p-4 text-center">
                 <h1 className="text-4xl font-bold mb-4">Тест завершен!</h1>
                 <p className="text-xl text-muted-foreground mb-8">Ваш результат: {score} из {questions.length}</p>
-                <Button onClick={() => navigate('/app/tests')}>Вернуться к тестам</Button>
+                {/* FIX-GEMINI: Using history.push for v5 navigation. */}
+                <Button onClick={() => history.push('/app/tests')}>Вернуться к тестам</Button>
             </div>
         );
     }
